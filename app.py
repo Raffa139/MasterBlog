@@ -1,11 +1,13 @@
-from flask import Flask
+from flask import Flask, render_template
+from repository import get_blog_posts
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
-    return "Index Page"
+    blog_posts = get_blog_posts()
+    return render_template("index.html", blogs=blog_posts)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+    <title>Master Blog</title>
+</head>
+<body>
+<h1>Welcome to Master Blog!</h1>
+
+{% for blog in blogs %}
+<div class="post">
+    <h2>{{ blog["title"] }}</h2>
+    <p><em>Written by {{ blog["author"] }}</em></p>
+    <p>{{ blog["content"] }}</p>
+</div>
+{% endfor %}
+</body>
+</html>

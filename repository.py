@@ -17,6 +17,16 @@ def get_blog_posts():
     return deserialize_blog_posts()
 
 
+def get_blog_post_by_id(id):
+    posts = get_blog_posts()
+
+    try:
+        post_by_id, = [post for post in posts if post["id"] == id]
+        return post_by_id
+    except ValueError:
+        return None
+
+
 def add_blog_post(author, title, content):
     if any([not author, not title, not content]):
         raise ValueError("Author, Title, and Content needed to create blog post")
@@ -35,7 +45,25 @@ def add_blog_post(author, title, content):
 
 
 def update_blog_post(id, author, title, content):
-    pass
+    if any([not author, not title, not content]):
+        raise ValueError("Author, Title, and Content needed to update blog post")
+
+    blog_posts = get_blog_posts()
+    post = get_blog_post_by_id(id)
+
+    if not post:
+        raise KeyError()
+
+    blog_posts.remove(post)
+
+    blog_posts.append({
+        "id": id,
+        "author": author,
+        "title": title,
+        "content": content
+    })
+
+    serialize_blog_posts(blog_posts)
 
 
 def delete_blog_post(id):

@@ -39,7 +39,11 @@ def update_blog_post(id, author, title, content):
 
 
 def delete_blog_post(id):
-    pass
+    if not id:
+        raise ValueError("No id provided")
+
+    posts_to_keep = [post for post in get_blog_posts() if post["id"] != id]
+    serialize_blog_posts(posts_to_keep)
 
 
 def next_id(*, posts):

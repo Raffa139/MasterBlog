@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from repository import get_blog_posts, add_blog_post
+from repository import get_blog_posts, add_blog_post, delete_blog_post
 
 app = Flask(__name__)
 
@@ -25,6 +25,16 @@ def add():
         return redirect(url_for("index"))
 
     return render_template("add.html")
+
+
+@app.route("/delete/<int:post_id>")
+def delete(post_id):
+    try:
+        delete_blog_post(post_id)
+    except ValueError:
+        return "Bad request", 400
+
+    return redirect(url_for("index"))
 
 
 if __name__ == '__main__':

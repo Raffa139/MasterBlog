@@ -7,12 +7,23 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
+    """
+    Renders the index page with a list of blog posts.
+    """
     blog_posts = get_blog_posts()
     return render_template("index.html", blogs=blog_posts)
 
 
 @app.route("/add", methods=["GET", "POST"])
 def add():
+    """
+    Handles adding a new blog post.
+
+    If the request method is POST, it retrieves form data, adds the blog post,
+    and redirects to the index page.
+
+    If the request method is GET, it renders the add blog post form.
+    """
     if request.method == "POST":
         title = request.form.get("title")
         author = request.form.get("author")
@@ -30,6 +41,17 @@ def add():
 
 @app.route("/update/<int:post_id>", methods=["GET", "POST"])
 def update(post_id):
+    """
+    Handles updating an existing blog post.
+
+    If the request method is POST, it retrieves form data, updates the blog post,
+    and redirects to the index page.
+
+    If the request method is GET, it retrieves the blog post by ID and renders the update form.
+
+    Args:
+        post_id (int): The ID of the blog post to update.
+    """
     if request.method == "POST":
         title = request.form.get("title")
         author = request.form.get("author")
@@ -53,6 +75,12 @@ def update(post_id):
 
 @app.route("/delete/<int:post_id>")
 def delete(post_id):
+    """
+    Handles deleting a blog post.
+
+    Args:
+        post_id (int): The ID of the blog post to delete.
+    """
     try:
         delete_blog_post(post_id)
     except ValueError:
@@ -63,6 +91,12 @@ def delete(post_id):
 
 @app.route("/like/<int:post_id>")
 def like(post_id):
+    """
+    Handles incrementing the likes count of a blog post.
+
+    Args:
+        post_id (int): The ID of the blog post to like.
+    """
     try:
         increment_likes(post_id)
     except KeyError:

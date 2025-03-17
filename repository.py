@@ -38,7 +38,8 @@ def add_blog_post(author, title, content):
         "id": id,
         "author": author,
         "title": title,
-        "content": content
+        "content": content,
+        "likes": 0
     })
 
     serialize_blog_posts(blog_posts)
@@ -60,7 +61,8 @@ def update_blog_post(id, author, title, content):
         "id": id,
         "author": author,
         "title": title,
-        "content": content
+        "content": content,
+        "likes": post["likes"]
     })
 
     serialize_blog_posts(blog_posts)
@@ -72,6 +74,29 @@ def delete_blog_post(id):
 
     posts_to_keep = [post for post in get_blog_posts() if post["id"] != id]
     serialize_blog_posts(posts_to_keep)
+
+
+def increment_likes(id):
+    if not id:
+        raise ValueError("No id provided")
+
+    blog_posts = get_blog_posts()
+    post = get_blog_post_by_id(id)
+
+    if not post:
+        raise KeyError()
+
+    blog_posts.remove(post)
+
+    blog_posts.append({
+        "id": id,
+        "author": post["author"],
+        "title": post["title"],
+        "content": post["content"],
+        "likes": post["likes"] + 1
+    })
+
+    serialize_blog_posts(blog_posts)
 
 
 def next_id(*, posts):

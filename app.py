@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
-from repository import get_blog_posts, get_blog_post_by_id, add_blog_post, update_blog_post, delete_blog_post
+from repository import get_blog_posts, get_blog_post_by_id, add_blog_post, update_blog_post, \
+    delete_blog_post, increment_likes
 
 app = Flask(__name__)
 
@@ -54,6 +55,18 @@ def update(post_id):
 def delete(post_id):
     try:
         delete_blog_post(post_id)
+    except ValueError:
+        return "Bad request", 400
+
+    return redirect(url_for("index"))
+
+
+@app.route("/like/<int:post_id>")
+def like(post_id):
+    try:
+        increment_likes(post_id)
+    except KeyError:
+        return "Not found", 404
     except ValueError:
         return "Bad request", 400
 

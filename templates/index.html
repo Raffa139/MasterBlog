@@ -19,6 +19,10 @@
     <h2>{{ blog["title"] }}</h2>
     <p><em>Written by {{ blog["author"] }}</em></p>
     <p>{{ blog["content"] }}</p>
+    <p style="font-size: .75rem">
+        <em>{{ blog["likes"] }} Likes</em>
+        <a href="{{ url_for('like', post_id=blog['id']) }}" style="text-decoration: none">❤️</a>
+    </p>
     <button onclick="window.location.href='{{ url_for('update', post_id=blog['id']) }}'">Update</button>
     <button onclick="window.location.href='{{ url_for('delete', post_id=blog['id']) }}'">Delete</button>
 </div>

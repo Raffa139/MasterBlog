@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+    <title>Add Blog</title>
+</head>
+<body>
+<h1>Welcome to Master Blog!</h1>
+
+<div style="width: fit-content; margin: 0 auto">
+    <h2>Add a new blog post below.</h2>
+
+    <form action="/add" method="POST">
+        <label for="title">Blog title:</label>
+        <input id="title" name="title" type="text" required/>
+        <br/>
+        <br/>
+
+        <label for="author">Blog author:</label>
+        <input id="author" name="author" type="text" required/>
+        <br/>
+        <br/>
+
+        <label for="content">Blog content:</label>
+        <input id="content" name="content" type="text" required style="width: 300px; height: 75px"/>
+        <br/>
+
+        <hr/>
+
+        <a href="/">Home</a>
+        <button type="submit">Send Post</button>
+    </form>
+</div>
+</body>
+</html>

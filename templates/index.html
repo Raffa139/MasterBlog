@@ -10,6 +10,10 @@
 <body>
 <h1>Welcome to Master Blog!</h1>
 
+<div style="width: fit-content; margin: 25px auto">
+    <a href="/add">Create Post</a>
+</div>
+
 {% for blog in blogs %}
 <div class="post">
     <h2>{{ blog["title"] }}</h2>

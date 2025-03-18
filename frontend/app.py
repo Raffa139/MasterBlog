@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
+    """Renders the index page of the blog."""
     return render_template("index.html")
 
 

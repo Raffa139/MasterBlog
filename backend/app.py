@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 @app.route("/api/posts")
 def get_posts():
+    """Get all blog posts, with optional sorting."""
     sort_field = request.args.get("sort", "")
     sort_direction = request.args.get("direction", "")
 
@@ -24,6 +25,7 @@ def get_posts():
 
 @app.route("/api/posts/search")
 def search_posts():
+    """Search blog posts based on query parameters."""
     params = request.args
     search_result = repo.search_blog_posts(**params)
     return jsonify(search_result)
@@ -31,6 +33,7 @@ def search_posts():
 
 @app.route("/api/posts", methods=["POST"])
 def add_post():
+    """Add a new blog post."""
     json = request.json
 
     try:
@@ -42,6 +45,7 @@ def add_post():
 
 @app.route("/api/posts/<int:post_id>", methods=["PUT"])
 def update_post(post_id):
+    """Update an existing blog post."""
     json = request.json
 
     try:
@@ -54,6 +58,7 @@ def update_post(post_id):
 
 @app.route("/api/posts/<int:post_id>", methods=["DELETE"])
 def delete_post(post_id):
+    """Delete a blog post."""
     if not repo.get_blog_post_by_id(post_id):
         return jsonify({"message": f"Post with id {post_id} not found."}), 404
 
@@ -66,6 +71,7 @@ def delete_post(post_id):
 
 @app.route("/api/posts/<int:post_id>/like", methods=["PATCH"])
 def like_post(post_id):
+    """Like a blog post (increment its like count)."""
     try:
         updated_post = repo.increment_likes(post_id)
         return jsonify(updated_post)

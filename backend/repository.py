@@ -5,6 +5,9 @@ REPOSITORY_FILE = "data/blog-posts.json"
 
 
 def initialize():
+    """
+    Initializes the blog post repository by creating the JSON file if it doesn't exist.
+    """
     if not os.path.exists(REPOSITORY_FILE):
         with open(REPOSITORY_FILE, mode="x", encoding="utf-8") as file:
             pass
@@ -63,6 +66,21 @@ def get_blog_post_by_id(id):
 
 
 def sort_blog_posts(sort_field, sort_direction):
+    """
+    Sorts blog posts based on a specified field and direction.
+
+    Args:
+        sort_field (str): The field to sort by (must be a key in the blog post dictionaries).
+        sort_direction (str): The sorting direction, either "asc" (ascending) or "desc" (
+        descending).
+
+    Returns:
+        list[dict]: A sorted list of blog posts.
+
+    Raises:
+        ValueError: If the sort_field is not a key in the blog post dictionaries or if
+                    sort_direction is not "asc" or "desc".
+    """
     blog_posts = get_blog_posts()
 
     if not blog_posts:
@@ -80,6 +98,17 @@ def sort_blog_posts(sort_field, sort_direction):
 
 
 def search_blog_posts(**search_fields):
+    """
+    Searches blog posts based on provided keyword arguments.
+
+    Args:
+        **search_fields: Keyword arguments where keys are the fields to search in (e.g.,
+        "author", "title")
+                       and values are the search terms.
+
+    Returns:
+        list[dict]: A list of blog posts that match the search criteria.
+    """
     blog_posts = get_blog_posts()
     search_results = []
 
@@ -111,6 +140,9 @@ def add_blog_post(author, title, content):
         author (str): The author of the blog post.
         title (str): The title of the blog post.
         content (str): The content of the blog post.
+
+    Returns:
+        dict: The newly added blog post.
 
     Raises:
         ValueError: If any of the required arguments are missing.
@@ -147,6 +179,9 @@ def increment_likes(id):
     Args:
         id (int): The ID of the blog post.
 
+    Returns:
+        dict: The updated blog post.
+
     Raises:
         ValueError: If no ID is provided.
         KeyError: If the blog post with the given ID is not found.
@@ -169,12 +204,15 @@ def update_blog_post(id, author=None, title=None, content=None, likes=None):
 
     Args:
         id (int): The ID of the blog post to update.
-        author (str): The updated author of the blog post.
-        title (str): The updated title of the blog post.
-        content (str): The updated content of the blog post.
+        author (str): The updated author of the blog post. Defaults to None.
+        title (str): The updated title of the blog post. Defaults to None.
+        content (str): The updated content of the blog post. Defaults to None.
+        likes (int): The updated number of likes for the blog post. Defaults to None.
+
+    Returns:
+        dict: The updated blog post.
 
     Raises:
-        ValueError: If any of the required arguments are missing.
         KeyError: If the blog post with the given ID is not found.
     """
     blog_posts = get_blog_posts()

@@ -241,6 +241,38 @@
           }
         }
       }
+    },
+    "/api/posts/{post_id}/like": {
+      "patch": {
+        "tags": [
+          "Blogpost's"
+        ],
+        "summary": "Increment the like count of a specific blog post.",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "description": "ID of the blog post to like.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The updated blog post with incremented likes.",
+            "schema": {
+              "$ref": "#/components/schemas/BlogPost"
+            }
+          },
+          "404": {
+            "description": "Blog post not found."
+          },
+          "400": {
+            "description": "Invalid post ID."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -264,7 +296,8 @@
           },
           "likes": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "Number of likes for the blog post."
           }
         }
       }

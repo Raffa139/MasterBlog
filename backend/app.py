@@ -64,6 +64,17 @@ def delete_post(post_id):
         return jsonify({"message": f"Invalid post id {post_id}."}), 400
 
 
+@app.route("/api/posts/<int:post_id>/like", methods=["PATCH"])
+def like_post(post_id):
+    try:
+        updated_post = repo.increment_likes(post_id)
+        return jsonify(updated_post)
+    except KeyError:
+        return jsonify({"message": f"Post with id {post_id} not found."}), 404
+    except ValueError:
+        return jsonify({"message": f"Invalid post id {post_id}."}), 400
+
+
 if __name__ == "__main__":
     CORS(app)
     setup_swagger(app)

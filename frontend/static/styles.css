@@ -74,11 +74,13 @@ body {
     color: #333;
 }
 
-.post button {
+.post-buttons {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #ff4444;
+}
+
+.post button {
     color: #fff;
     border: none;
     padding: 5px 10px;
@@ -86,6 +88,18 @@ body {
     cursor: pointer;
 }
 
-.post button:hover {
+.delete-button {
+    background-color: #ff4444;
+}
+
+.delete-button:hover {
     background-color: #cc0000;
+}
+
+.like-button {
+    background-color: #e1bc15;
+}
+
+.like-button:hover {
+    background-color: #d99319;
 }

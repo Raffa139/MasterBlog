@@ -16,7 +16,7 @@ function loadPosts() {
     localStorage.setItem('apiBaseUrl', baseUrl);
 
     // Use the Fetch API to send a GET request to the /posts endpoint
-    fetch(baseUrl + '/posts')
+    fetch(baseUrl + '/posts?sort=title&direction=asc')
         .then(response => response.json())  // Parse the JSON data from the response
         .then(data => {  // Once the data is ready, we can use it
             // Clear out the post container first
@@ -29,7 +29,9 @@ function loadPosts() {
                 postDiv.className = 'post';
                 postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>
                 <p style="font-size: .75em"><em>by ${post.author}</em></p>
-                <button onclick="deletePost(${post.id})">Delete</button>`;
+                <p style="font-size: .65em"><em>${post.likes} Likes</em></p>
+                <div class="post-buttons"><button class="delete-button" onclick="deletePost(${post.id})">Delete</button>
+                <button class="like-button" onclick="likePost(${post.id})">Like</button></div>`;
                 postContainer.appendChild(postDiv);
             });
         })
@@ -71,4 +73,17 @@ function deletePost(postId) {
         loadPosts(); // Reload the posts after deleting one
     })
     .catch(error => console.error('Error:', error));  // If an error occurs, log it to the console
+}
+
+function likePost(postId) {
+    var baseUrl = document.getElementById('api-base-url').value;
+
+    fetch(baseUrl + '/posts/' + postId + '/like', {
+        method: 'PATCH'
+    })
+    .then(response => {
+        console.log('Post liked:', postId);
+        loadPosts();
+    })
+    .catch(error => console.error('Error:', error));
 }

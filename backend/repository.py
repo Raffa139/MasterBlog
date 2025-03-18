@@ -1,6 +1,13 @@
 import json
+import os
 
 REPOSITORY_FILE = "data/blog-posts.json"
+
+
+def initialize():
+    if not os.path.exists(REPOSITORY_FILE):
+        with open(REPOSITORY_FILE, mode="x", encoding="utf-8") as file:
+            pass
 
 
 def serialize_blog_posts(posts):
@@ -32,7 +39,10 @@ def get_blog_posts():
     Returns:
         list[dict]: A list of dictionaries representing blog posts.
     """
-    return deserialize_blog_posts()
+    try:
+        return deserialize_blog_posts()
+    except json.decoder.JSONDecodeError:
+        return []
 
 
 def get_blog_post_by_id(id):

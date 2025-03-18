@@ -67,20 +67,28 @@ def add_blog_post(author, title, content):
         ValueError: If any of the required arguments are missing.
     """
     if any([not author, not title, not content]):
-        raise ValueError("Author, Title, and Content needed to create blog post")
+        raise ValueError({
+            "missing-fields": {
+                "author": not author,
+                "title": not title,
+                "content": not content
+            }
+        })
 
     blog_posts = get_blog_posts()
     id = next_id(posts=blog_posts)
 
-    blog_posts.append({
+    new_post = {
         "id": id,
         "author": author,
         "title": title,
         "content": content,
         "likes": 0
-    })
+    }
 
+    blog_posts.append(new_post)
     serialize_blog_posts(blog_posts)
+    return new_post
 
 
 def update_blog_post(id, author, title, content):

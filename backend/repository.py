@@ -137,7 +137,7 @@ def delete_blog_post(id):
     Raises:
         ValueError: If no ID is provided.
     """
-    if not id:
+    if id is None:
         raise ValueError("No id provided")
 
     posts_to_keep = [post for post in get_blog_posts() if post["id"] != id]

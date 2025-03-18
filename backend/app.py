@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from repository import get_blog_posts, add_blog_post, delete_blog_post, get_blog_post_by_id, \
-    update_blog_post, search_blog_posts
+    update_blog_post, search_blog_posts, sort_blog_posts
 
 app = Flask(__name__)
 CORS(app)
@@ -9,6 +9,16 @@ CORS(app)
 
 @app.route("/api/posts")
 def get_posts():
+    sort_field = request.args.get("sort", "")
+    sort_direction = request.args.get("direction", "")
+
+    if sort_field or sort_direction:
+        try:
+            sorted_blog_posts = sort_blog_posts(sort_field.lower(), sort_direction.lower())
+            return jsonify(sorted_blog_posts)
+        except ValueError as error:
+            return jsonify(str(error)), 400
+
     blog_posts = get_blog_posts()
     return jsonify(blog_posts)
 

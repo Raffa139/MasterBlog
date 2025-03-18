@@ -45,13 +45,28 @@ def get_blog_post_by_id(id):
     Returns:
         dict or None: A dictionary representing the blog post, or None if not found.
     """
-    posts = get_blog_posts()
-
     try:
-        post_by_id, = [post for post in posts if post["id"] == id]
+        post_by_id, = [post for post in get_blog_posts() if post["id"] == id]
         return post_by_id
     except ValueError:
         return None
+
+
+def sort_blog_posts(sort_field, sort_direction):
+    blog_posts = get_blog_posts()
+
+    if not blog_posts:
+        return []
+
+    if sort_field not in blog_posts[0] or sort_direction not in ["asc", "desc"]:
+        raise ValueError({
+            "invalid-sort-options": {
+                "sort": sort_field not in blog_posts[0],
+                "direction": sort_direction not in ["asc", "desc"]
+            }
+        })
+
+    return sorted(blog_posts, key=lambda post: post[sort_field], reverse=sort_direction == "desc")
 
 
 def search_blog_posts(**search_fields):

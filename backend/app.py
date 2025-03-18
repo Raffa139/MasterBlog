@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from repository import get_blog_posts, add_blog_post, delete_blog_post, get_blog_post_by_id, \
-    update_blog_post
+    update_blog_post, search_blog_posts
 
 app = Flask(__name__)
 CORS(app)
@@ -11,6 +11,13 @@ CORS(app)
 def get_posts():
     blog_posts = get_blog_posts()
     return jsonify(blog_posts)
+
+
+@app.route("/api/posts/search")
+def search_posts():
+    params = request.args
+    search_result = search_blog_posts(**params)
+    return jsonify(search_result)
 
 
 @app.route("/api/posts", methods=["POST"])
@@ -31,7 +38,7 @@ def update_post(post_id):
     try:
         updated_post = update_blog_post(post_id, json.get("author"), json.get("title"),
                                         json.get("content"))
-        return jsonify(updated_post), 200
+        return jsonify(updated_post)
     except KeyError:
         return jsonify({"message": f"Post with id {post_id} not found."}), 404
 
@@ -43,7 +50,7 @@ def delete_post(post_id):
 
     try:
         delete_blog_post(post_id)
-        return jsonify({"message": f"Post with id {post_id} has been deleted successfully."}), 200
+        return jsonify({"message": f"Post with id {post_id} has been deleted successfully."})
     except ValueError:
         return jsonify({"message": f"Invalid post id {post_id}."}), 400
 

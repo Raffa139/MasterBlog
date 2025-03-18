@@ -54,6 +54,30 @@ def get_blog_post_by_id(id):
         return None
 
 
+def search_blog_posts(**search_fields):
+    blog_posts = get_blog_posts()
+    search_results = []
+
+    if not search_fields:
+        return blog_posts
+
+    for post in blog_posts:
+        for search_field, search_value in search_fields.items():
+            if search_field in post.keys():
+                value = post.get(search_field)
+
+                if not isinstance(value, str):
+                    continue
+
+                if post in search_results:
+                    search_results.remove(post)
+
+                if search_value.lower() in value.lower():
+                    search_results.append(post)
+
+    return search_results
+
+
 def add_blog_post(author, title, content):
     """
     Adds a new blog post to the repository.

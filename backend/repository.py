@@ -91,7 +91,7 @@ def add_blog_post(author, title, content):
     return new_post
 
 
-def update_blog_post(id, author, title, content):
+def update_blog_post(id, author=None, title=None, content=None):
     """
     Updates an existing blog post in the repository.
 
@@ -105,26 +105,24 @@ def update_blog_post(id, author, title, content):
         ValueError: If any of the required arguments are missing.
         KeyError: If the blog post with the given ID is not found.
     """
-    if any([not author, not title, not content]):
-        raise ValueError("Author, Title, and Content needed to update blog post")
-
     blog_posts = get_blog_posts()
-    post = get_blog_post_by_id(id)
+    old_post = get_blog_post_by_id(id)
 
-    if not post:
+    if not old_post:
         raise KeyError()
 
-    blog_posts.remove(post)
-
-    blog_posts.append({
+    updated_post = {
         "id": id,
-        "author": author,
-        "title": title,
-        "content": content,
-        "likes": post["likes"]
-    })
+        "author": author if author else old_post["author"],
+        "title": title if title else old_post["title"],
+        "content": content if content else old_post["content"],
+        "likes": old_post["likes"]
+    }
 
+    blog_posts.remove(old_post)
+    blog_posts.append(updated_post)
     serialize_blog_posts(blog_posts)
+    return updated_post
 
 
 def delete_blog_post(id):

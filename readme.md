@@ -2,6 +2,8 @@
 
 Using Flask to create a blog where one can share thoughts, ideas, and stories.
 
+This version is rendered on the server (SSR).
+
 In the blog, you are able to view all posts, delve into each one for more details, add
 new posts, and delete any you don’t want anymore.
 

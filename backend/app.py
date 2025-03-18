@@ -1,10 +1,12 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_swagger import setup_swagger
 from repository import get_blog_posts, add_blog_post, delete_blog_post, get_blog_post_by_id, \
     update_blog_post, search_blog_posts, sort_blog_posts
 
 app = Flask(__name__)
 CORS(app)
+setup_swagger(app)
 
 
 @app.route("/api/posts")
